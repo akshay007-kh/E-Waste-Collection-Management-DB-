@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Recycling</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 550px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        label {
+            display: block;
+            margin-top: 18px;
+        }
+        input, select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Recycling #{{ recycling.id }}</h2>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <p><b>Collection:</b> #{{ recycling.collection.id }}</p>
+    <p><b>User:</b> {{ recycling.collection.request.user.name }}</p>
+    <p><b>Maximum Weight:</b> {{ recycling.collection.actual_weight }} kg</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Recycled Weight (kg)</label>
+        <input type="number" name="recycled_weight"
+               step="0.01" min="0.01"
+               max="{{ recycling.collection.actual_weight }}"
+               value="{{ recycling.recycled_weight }}" required>
+
+        <label>Recycling Date</label>
+        <input type="date" name="recycling_date"
+               value="{{ recycling.recycling_date|date:'Y-m-d' }}"
+               required>
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="Processing"
+                {% if recycling.status == 'Processing' %}selected{% endif %}>
+                Processing
+            </option>
+
+            <option value="Completed"
+                {% if recycling.status == 'Completed' %}selected{% endif %}>
+                Completed
+            </option>
+        </select>
+
+        <button type="submit">Update Recycling</button>
+        <a href="{% url 'manage_recycling' %}">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

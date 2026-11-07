@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Request</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        label { display: block; margin-top: 15px; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #5135a5;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Collection Request</h2>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>User</label>
+        <select name="user" required>
+            {% for user in users %}
+            <option value="{{ user.id }}"
+                {% if user.id == request_obj.user.id %}selected{% endif %}>
+                {{ user.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Category</label>
+        <select name="category" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}"
+                {% if category.id == request_obj.category.id %}selected{% endif %}>
+                {{ category.category_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Collection Centre</label>
+        <select name="centre" required>
+            {% for centre in centres %}
+            <option value="{{ centre.id }}"
+                {% if centre.id == request_obj.centre.id %}selected{% endif %}>
+                {{ centre.centre_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Quantity</label>
+        <input type="number" name="quantity"
+               value="{{ request_obj.quantity }}" min="1" required>
+
+        <label>Weight (kg)</label>
+        <input type="number" name="weight" step="0.01"
+               value="{{ request_obj.weight }}" min="0.01" required>
+
+        <label>Pickup Address</label>
+        <textarea name="pickup_address" required>{{ request_obj.pickup_address }}</textarea>
+
+        <label>Pickup Date</label>
+        <input type="date" name="pickup_date"
+               value="{{ request_obj.pickup_date|date:'Y-m-d' }}" required>
+
+        <label>Status</label>
+        <select name="status" required>
+            {% for status in "Pending,Assigned,Collected,Cancelled"|cut:" "|make_list %}
+                <!-- Use the options below instead -->
+            {% endfor %}
+            <option value="Pending" {% if request_obj.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Assigned" {% if request_obj.status == 'Assigned' %}selected{% endif %}>Assigned</option>
+            <option value="Collected" {% if request_obj.status == 'Collected' %}selected{% endif %}>Collected</option>
+            <option value="Cancelled" {% if request_obj.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+        </select>
+
+        <button type="submit">Update Request</button>
+        <a href="{% url 'manage_requests' %}">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

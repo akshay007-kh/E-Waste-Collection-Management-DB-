@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Details | E-Waste</title>
+
+    <style>
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+        body {
+            background: #0b1020;
+            color: white;
+            padding: 40px 8%;
+        }
+
+        .box {
+            max-width: 600px;
+            margin: auto;
+            background: #151c30;
+            padding: 30px;
+            border: 1px solid #29334d;
+            border-radius: 15px;
+        }
+
+        h2 { color: #a78bfa; margin-bottom: 25px; }
+
+        p {
+            padding: 13px 0;
+            border-bottom: 1px solid #29334d;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        strong { color: white; }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 18px;
+            background: #7c3aed;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Category Details</h2>
+
+    <p><strong>Category ID:</strong> {{ category.id }}</p>
+    <p><strong>Category Name:</strong> {{ category.category_name }}</p>
+    <p><strong>Description:</strong> {{ category.description }}</p>
+
+    <a href="{% url 'manage_categories' %}">Back to Categories</a>
+
+</div>
+
+</body>
+</html>

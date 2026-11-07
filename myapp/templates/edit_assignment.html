@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Assignment</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        label {
+            display: block;
+            margin-top: 20px;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #5135a5;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Assignment #{{ assignment.id }}</h2>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Collection Request</label>
+        <input type="text"
+               value="Request #{{ assignment.request.id }}"
+               disabled>
+
+        <label>Assigned Staff</label>
+        <select name="staff" required>
+            {% for staff in staff_list %}
+            <option value="{{ staff.id }}"
+                {% if staff.id == assignment.staff.id %}selected{% endif %}>
+                {{ staff.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Assignment Status</label>
+        <select name="status" required>
+            <option value="Assigned"
+                {% if assignment.status == 'Assigned' %}selected{% endif %}>
+                Assigned
+            </option>
+
+            <option value="In Progress"
+                {% if assignment.status == 'In Progress' %}selected{% endif %}>
+                In Progress
+            </option>
+
+            <option value="Completed"
+                {% if assignment.status == 'Completed' %}selected{% endif %}>
+                Completed
+            </option>
+        </select>
+
+        <button type="submit">Update Assignment</button>
+        <a href="{% url 'manage_assignments' %}">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

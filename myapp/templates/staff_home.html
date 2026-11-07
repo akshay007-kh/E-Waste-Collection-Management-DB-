@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0b0b14;
+            color: #eeeeF5;
+        }
+        nav {
+            background: #171326;
+            border-bottom: 1px solid #30234f;
+            padding: 18px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h2 { margin: 0; color: white; }
+        nav a {
+            color: #ddd5f5;
+            text-decoration: none;
+            margin-left: 18px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+        .welcome, .stat, .module {
+            background: #171525;
+            border: 1px solid #302747;
+            border-radius: 12px;
+            padding: 25px;
+        }
+        h2, h3 { color: white; }
+        .muted { color: #aaa4bc; }
+        .stats, .modules {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-top: 22px;
+        }
+        .stat h2 {
+            color: #b794ff;
+            font-size: 30px;
+        }
+        .modules { grid-template-columns: repeat(2, 1fr); }
+        .module a {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+        .module a:hover { background: #7048d4; }
+        @media(max-width: 750px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .modules { grid-template-columns: 1fr; }
+            nav { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <h2>E-Waste Management</h2>
+    <div>
+        <a href="{% url 'staff_home' %}">Dashboard</a>
+        <a href="{% url 'staff_profile' %}">Profile</a>
+        <a href="{% url 'staff_logout' %}">Logout</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>Welcome, {{ staff.name }}!</h2>
+        <p class="muted">Manage your assigned e-waste collection tasks.</p>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <h2>{{ total_assignments }}</h2>
+            <p class="muted">Total Assignments</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ pending_assignments }}</h2>
+            <p class="muted">Assigned</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ in_progress_assignments }}</h2>
+            <p class="muted">In Progress</p>
+        </div>
+
+        <div class="stat">
+            <h2>{{ completed_assignments }}</h2>
+            <p class="muted">Completed</p>
+        </div>
+    </div>
+
+    <div class="modules">
+        <div class="module">
+            <h3>My Assignments</h3>
+            <p class="muted">View requests assigned to you and update their status.</p>
+            <a href="{% url 'my_assignments' %}">View Assignments</a>
+        </div>
+
+        <div class="module">
+            <h3>My Profile</h3>
+            <p class="muted">View and update your personal details.</p>
+            <a href="{% url 'staff_profile' %}">View Profile</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Collection Centre | E-Waste</title>
+
+    <style>
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+        body {
+            background: #0b1020;
+            color: white;
+            padding: 40px 8%;
+        }
+
+        .form-box {
+            max-width: 550px;
+            margin: auto;
+            background: #151c30;
+            padding: 30px;
+            border: 1px solid #29334d;
+            border-radius: 15px;
+        }
+
+        h2 { color: #a78bfa; margin-bottom: 25px; }
+
+        label { display: block; margin: 15px 0 8px; }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #0b1020;
+            border: 1px solid #39445e;
+            border-radius: 7px;
+            color: white;
+        }
+
+        textarea { min-height: 100px; }
+
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button { background: #7c3aed; }
+        a { background: #475569; }
+
+        .messages p { color: #fca5a5; margin-bottom: 10px; }
+    </style>
+</head>
+
+<body>
+
+<div class="form-box">
+
+    <h2>Edit Collection Centre</h2>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Centre Name</label>
+        <input type="text" name="centre_name"
+               value="{{ centre.centre_name }}" required>
+
+        <label>Address</label>
+        <textarea name="address" required>{{ centre.address }}</textarea>
+
+        <label>Phone</label>
+        <input type="text" name="phone"
+               value="{{ centre.phone }}" required>
+
+        <label>Email</label>
+        <input type="email" name="email"
+               value="{{ centre.email }}" required>
+
+        <button type="submit">Update Centre</button>
+        <a href="{% url 'manage_centres' %}">Cancel</a>
+    </form>
+
+</div>
+
+</body>
+</html>

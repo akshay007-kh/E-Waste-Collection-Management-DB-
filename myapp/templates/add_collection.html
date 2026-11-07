@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Collection</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 550px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        label {
+            display: block;
+            margin-top: 18px;
+        }
+        input, select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Collection Record</h2>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Select Collection Request</label>
+        <select name="collection_request" required>
+            <option value="">-- Select Request --</option>
+            {% for item in requests_list %}
+            <option value="{{ item.id }}">
+                #{{ item.id }} - {{ item.user.name }}
+                - {{ item.category.category_name }}
+                - {{ item.centre.centre_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Actual Weight (kg)</label>
+        <input type="number" name="actual_weight"
+               step="0.01" min="0.01" required>
+
+        <label>Collection Date</label>
+        <input type="date" name="collection_date"
+               value="{{ today|date:'Y-m-d' }}" required>
+
+        <label>Status</label>
+        <select name="status" required>
+            <option value="Collected">Collected</option>
+            <option value="Partially Collected">Partially Collected</option>
+        </select>
+
+        <button type="submit">Save Collection</button>
+        <a href="{% url 'manage_collections' %}">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

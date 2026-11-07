@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Waste Collection Management</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #080b18;
+            color: #f5f6ff;
+        }
+
+        /* NAVBAR */
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: #0c1020;
+            border-bottom: 1px solid #242941;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #a78bfa;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 11px;
+            color: #9299b5;
+            font-weight: 400;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #c5c9dc;
+            margin: 0 8px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #a78bfa;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .staff-btn {
+            background: #1b1b39;
+            border: 1px solid #6552a8;
+            color: #c4b5fd;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* HERO */
+
+        .hero {
+            min-height: 540px;
+            display: flex;
+            align-items: center;
+            padding: 70px 9%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #080b18 25%,
+                    #080b18e8 48%,
+                    #080b1850 100%
+                ),
+                url('https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=1600&q=80')
+                center/cover;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #1b1b39;
+            color: #a78bfa;
+            padding: 9px 18px;
+            border: 1px solid #34315e;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 5vw, 65px);
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #a9b0c9;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        /* BUTTONS */
+
+        .btn {
+            display: inline-block;
+            padding: 14px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 12px;
+            transition: 0.3s;
+        }
+
+        .primary {
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            color: white;
+            box-shadow: 0 8px 25px #6366f130;
+        }
+
+        .secondary {
+            border: 1px solid #555b82;
+            color: white;
+            background: #ffffff08;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px #8b5cf630;
+        }
+
+        /* FEATURE CARDS */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 0 8%;
+            margin-top: -25px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #151a30, #0e1325);
+            padding: 28px;
+            border: 1px solid #282e4a;
+            border-radius: 18px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px #6366f115;
+        }
+
+        .card h3 {
+            color: #a78bfa;
+            margin-bottom: 12px;
+            font-size: 17px;
+        }
+
+        .card p {
+            color: #a9b0c9;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* HOW IT WORKS */
+
+        .section {
+            padding: 80px 8%;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 34px;
+            margin-bottom: 50px;
+        }
+
+        .section h2 span {
+            color: #a78bfa;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+
+        .step {
+            padding: 25px;
+            background: #11162a;
+            border: 1px solid #252b45;
+            border-radius: 18px;
+            transition: 0.3s;
+        }
+
+        .step:hover {
+            border-color: #6366f1;
+            transform: translateY(-5px);
+        }
+
+        .step-icon {
+            width: 75px;
+            height: 75px;
+            background: linear-gradient(135deg, #30245c, #202b5c);
+            border: 1px solid #6552a8;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .step h3 {
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .step p {
+            color: #a9b0c9;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 28px;
+            color: #9299b5;
+            background: #0c1020;
+            border-top: 1px solid #242941;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            nav {
+                flex-wrap: wrap;
+            }
+
+            .features,
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+            nav {
+                padding: 20px;
+            }
+
+            nav .links {
+                display: none;
+            }
+
+            .nav-actions {
+                width: 100%;
+            }
+
+            .hero {
+                padding: 50px 6%;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .features,
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 450px;
+                padding: 40px 6%;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .btn {
+                margin-bottom: 12px;
+            }
+
+            .nav-actions {
+                gap: 8px;
+            }
+
+            .nav-actions a {
+                font-size: 12px;
+                padding: 9px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+        <div class="logo">
+            ♻ E-Waste
+            <span>Collection Management</span>
+        </div>
+
+        <div class="links">
+            <a href="/">Home</a>
+            <a href="#about">About</a>
+            <a href="#centres">Collection Centres</a>
+            <a href="#recycle">Recycle</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="/login/">Login</a>
+
+            <a href="/register/" class="nav-btn">
+                User Register
+            </a>
+
+            <a href="/staff-register/" class="staff-btn">
+                Staff Register
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+        <div class="hero-content">
+
+            <div class="tag">
+                ♻ E-Waste Collection Management System
+            </div>
+
+            <h1>
+                Dispose E-Waste
+                <span>Responsibly</span>
+            </h1>
+
+            <p>
+                A smart and simple platform to request e-waste
+                collection, manage recycling, and build a cleaner,
+                greener planet.
+            </p>
+
+            <a href="/register/" class="btn primary">
+                ♻ Request Collection
+            </a>
+
+            <a href="#about" class="btn secondary">
+                Learn More →
+            </a>
+
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+
+    <section class="features" id="about">
+
+        <div class="card">
+            <h3>Request Pickup</h3>
+            <p>
+                Schedule e-waste collection from your location.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Safe Recycling</h3>
+            <p>
+                Ensure proper and eco-friendly recycling.
+            </p>
+        </div>
+
+        <div class="card" id="centres">
+            <h3>Collection Centres</h3>
+            <p>
+                Find e-waste collection centres.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Sustainable Future</h3>
+            <p>
+                Reduce e-waste and protect our environment.
+            </p>
+        </div>
+
+    </section>
+
+    <!-- HOW IT WORKS -->
+
+    <section class="section" id="recycle">
+
+        <h2>How It <span>Works?</span></h2>
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="step-icon">📝</div>
+                <h3>Register</h3>
+                <p>Create your account</p>
+            </div>
+
+            <div class="step">
+                <div class="step-icon">📅</div>
+                <h3>Request Collection</h3>
+                <p>Submit e-waste pickup request</p>
+            </div>
+
+            <div class="step">
+                <div class="step-icon">🚚</div>
+                <h3>Pickup & Collect</h3>
+                <p>Our staff collects your e-waste</p>
+            </div>
+
+            <div class="step">
+                <div class="step-icon">♻</div>
+                <h3>Recycle</h3>
+                <p>Items are processed safely</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        © 2026 E-Waste Collection Management System
+        | A Greener Tomorrow Starts Today
+    </footer>
+
+</body>
+</html>

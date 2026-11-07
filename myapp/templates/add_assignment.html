@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Assignment</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 550px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Assign Collection Request</h2>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Select Collection Request</label>
+        <select name="collection_request" required>
+            <option value="">-- Select Request --</option>
+            {% for item in requests_list %}
+            <option value="{{ item.id }}">
+                #{{ item.id }} - {{ item.user.name }}
+                - {{ item.category.category_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Select Staff</label>
+        <select name="staff" required>
+            <option value="">-- Select Staff --</option>
+            {% for staff in staff_list %}
+            <option value="{{ staff.id }}">
+                {{ staff.name }} - {{ staff.phone }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Assign Staff</button>
+        <a href="{% url 'manage_assignments' %}">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

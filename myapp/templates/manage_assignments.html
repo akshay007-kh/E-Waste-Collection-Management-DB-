@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Assignments</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn, button {
+            display: inline-block;
+            padding: 9px 13px;
+            border: none;
+            border-radius: 5px;
+            background: #5135a5;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #30205c;
+            color: white;
+        }
+        .view { background: #16865d; }
+        .edit { background: #d18b18; }
+        .delete { background: #d33b48; }
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+        .actions form { margin: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="top">
+        <h2>Manage Assignments</h2>
+        <a href="{% url 'add_assignment' %}" class="btn">
+            + Add Assignment
+        </a>
+    </div>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form method="GET">
+        <input type="text" name="search"
+               placeholder="Search assignments..."
+               value="{{ search }}">
+        <button type="submit">Search</button>
+        <a href="{% url 'manage_assignments' %}" class="btn">Reset</a>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Request</th>
+            <th>User</th>
+            <th>Category</th>
+            <th>Staff</th>
+            <th>Assigned Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for assignment in assignments %}
+        <tr>
+            <td>{{ assignment.id }}</td>
+            <td>#{{ assignment.request.id }}</td>
+            <td>{{ assignment.request.user.name }}</td>
+            <td>{{ assignment.request.category.category_name }}</td>
+            <td>{{ assignment.staff.name }}</td>
+            <td>{{ assignment.assigned_date|date:"d-m-Y" }}</td>
+            <td>{{ assignment.status }}</td>
+            <td>
+                <div class="actions">
+                    <a href="{% url 'view_assignment' assignment.id %}"
+                       class="btn view">View</a>
+
+                    <a href="{% url 'edit_assignment' assignment.id %}"
+                       class="btn edit">Edit</a>
+
+                    <form method="POST"
+                          action="{% url 'delete_assignment' assignment.id %}"
+                          onsubmit="return confirm('Delete this assignment?')">
+                        {% csrf_token %}
+                        <button type="submit" class="delete">Delete</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8">No assignments found.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p>
+        <a href="{% url 'admin_home' %}" class="btn">
+            Back to Dashboard
+        </a>
+    </p>
+</div>
+
+</body>
+</html>

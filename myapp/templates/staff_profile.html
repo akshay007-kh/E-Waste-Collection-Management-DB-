@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Profile</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial;
+            background: #0b0b14;
+            color: #eeeeF5;
+            padding: 30px;
+        }
+        .container {
+            max-width: 550px;
+            margin: auto;
+            padding: 25px;
+            background: #171525;
+            border: 1px solid #302747;
+            border-radius: 12px;
+        }
+        h2 { color: white; }
+        label {
+            display: block;
+            margin-top: 18px;
+            color: #d1cedd;
+        }
+        input, textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 8px;
+            background: #211e32;
+            color: white;
+            border: 1px solid #49405f;
+            border-radius: 5px;
+        }
+        textarea { min-height: 90px; }
+        button, a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        button:hover, a:hover { background: #7048d4; }
+        .message {
+            padding: 10px;
+            background: #211e32;
+            border-left: 3px solid #a855f7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Profile</h2>
+
+    {% for message in messages %}
+        <p class="message">{{ message }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Name</label>
+        <input type="text" name="name"
+               value="{{ staff.name }}" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone"
+               value="{{ staff.phone }}" required>
+
+        <label>Email</label>
+        <input type="email" name="email"
+               value="{{ staff.email }}" required>
+
+        <label>Address</label>
+        <textarea name="address" required>{{ staff.address }}</textarea>
+
+        <button type="submit">Update Profile</button>
+        <a href="{% url 'staff_home' %}">Back</a>
+    </form>
+</div>
+
+</body>
+</html>

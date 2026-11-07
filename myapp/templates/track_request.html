@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Track Request</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f9; padding: 30px; }
+        .card {
+            max-width: 650px; margin: auto; background: white;
+            padding: 25px; border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        p { padding: 10px; border-bottom: 1px solid #eee; }
+        a {
+            display: inline-block; padding: 10px 15px;
+            background: #5135a5; color: white;
+            text-decoration: none; border-radius: 5px; margin-top: 15px;
+        }
+        h3 { color: #5135a5; margin-top: 25px; }
+
+/* DARK THEME */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #0b0b14 !important;
+    color: #eeeeF5 !important;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    background: #171326 !important;
+    border-bottom: 1px solid #30234f;
+}
+
+.container,
+.card,
+.welcome,
+.stat,
+.module {
+    background: #171525 !important;
+    color: #eeeeF5 !important;
+    border: 1px solid #302747 !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+h1, h2, h3, h4 {
+    color: #ffffff !important;
+}
+
+p, label, td {
+    color: #d1cedd;
+}
+
+th {
+    background: #30205c !important;
+    color: white !important;
+}
+
+td {
+    background: #171525;
+    border-bottom: 1px solid #302747 !important;
+}
+
+input,
+select,
+textarea {
+    background: #211e32 !important;
+    color: #ffffff !important;
+    border: 1px solid #49405f !important;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 0 2px rgba(168,85,247,0.15);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9992ad;
+}
+
+select option {
+    background: #211e32;
+    color: white;
+}
+
+button,
+.btn,
+a:not(nav a) {
+    background: #5135a5;
+    color: white !important;
+}
+
+button:hover,
+.btn:hover,
+a:not(nav a):hover {
+    background: #7048d4;
+}
+
+.view {
+    background: #16865d !important;
+}
+
+.edit {
+    background: #bd801b !important;
+}
+
+.delete {
+    background: #c93648 !important;
+}
+
+.feedback {
+    background: #16865d !important;
+}
+
+.message {
+    background: #211e32;
+    color: #ffffff;
+    border-left: 3px solid #a855f7;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+table {
+    background: #171525;
+}
+
+::selection {
+    background: #7048d4;
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Track Request #{{ request_obj.id }}</h2>
+
+    <h3>Request Details</h3>
+    <p><b>Category:</b> {{ request_obj.category.category_name }}</p>
+    <p><b>Centre:</b> {{ request_obj.centre.centre_name }}</p>
+    <p><b>Quantity:</b> {{ request_obj.quantity }}</p>
+    <p><b>Estimated Weight:</b> {{ request_obj.weight }} kg</p>
+    <p><b>Pickup Address:</b> {{ request_obj.pickup_address }}</p>
+    <p><b>Pickup Date:</b> {{ request_obj.pickup_date|date:"d-m-Y" }}</p>
+    <p><b>Request Status:</b> {{ request_obj.status }}</p>
+
+   <h3>Staff Assignment Status</h3>
+
+{% if assignment %}
+    <p><b>Assigned Staff:</b> {{ assignment.staff.name }}</p>
+    <p><b>Staff Phone:</b> {{ assignment.staff.phone }}</p>
+    <p><b>Assigned Date:</b> {{ assignment.assigned_date|date:"d-m-Y" }}</p>
+
+    <p>
+        <b>Current Pickup Status:</b>
+        {% if assignment.status == 'Assigned' %}
+            Staff Assigned
+        {% elif assignment.status == 'In Progress' %}
+            Pickup In Progress
+        {% elif assignment.status == 'Completed' %}
+            Pickup Completed - Waiting for Admin Collection Record
+        {% endif %}
+    </p>
+{% else %}
+    <p>Staff has not been assigned yet.</p>
+{% endif %}
+
+    <h3>Collection Details</h3>
+    {% if collection %}
+        <p><b>Actual Weight:</b> {{ collection.actual_weight }} kg</p>
+        <p><b>Collection Date:</b> {{ collection.collection_date|date:"d-m-Y" }}</p>
+        <p><b>Collection Status:</b> {{ collection.status }}</p>
+    {% else %}
+        <p>Collection has not been completed yet.</p>
+    {% endif %}
+
+    <h3>Recycling Details</h3>
+    {% if recycling %}
+        <p><b>Recycled Weight:</b> {{ recycling.recycled_weight }} kg</p>
+        <p><b>Recycling Date:</b> {{ recycling.recycling_date|date:"d-m-Y" }}</p>
+        <p><b>Recycling Status:</b> {{ recycling.status }}</p>
+    {% else %}
+        <p>Recycling details are not available yet.</p>
+    {% endif %}
+
+    <a href="{% url 'my_requests' %}">Back to My Requests</a>
+</div>
+
+</body>
+</html>

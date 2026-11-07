@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Assignments</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial;
+            background: #0b0b14;
+            color: #eeeeF5;
+            padding: 30px;
+        }
+        .container {
+            max-width: 1150px;
+            margin: auto;
+            background: #171525;
+            border: 1px solid #302747;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        h2 { color: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td {
+            padding: 13px;
+            text-align: left;
+            border-bottom: 1px solid #302747;
+        }
+        th { background: #30205c; color: white; }
+        td { color: #d1cedd; }
+        a {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #5135a5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back { margin-top: 20px; }
+        .empty { color: #aaa4bc; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Assignments</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Category</th>
+            <th>Centre</th>
+            <th>Pickup Date</th>
+            <th>Weight</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for item in assignments %}
+        <tr>
+            <td>#{{ item.id }}</td>
+            <td>{{ item.request.user.name }}</td>
+            <td>{{ item.request.category.category_name }}</td>
+            <td>{{ item.request.centre.centre_name }}</td>
+            <td>{{ item.request.pickup_date|date:"d-m-Y" }}</td>
+            <td>{{ item.request.weight }} kg</td>
+            <td>{{ item.status }}</td>
+            <td>
+                <a href="{% url 'staff_view_assignment' item.id %}">
+                    View Details
+                </a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8" class="empty">
+                No assignments have been assigned to you yet.
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p class="back">
+        <a href="{% url 'staff_home' %}">Back to Dashboard</a>
+    </p>
+</div>
+
+</body>
+</html>

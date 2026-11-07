@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Request</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f9; padding: 30px; }
+        .card {
+            max-width: 600px; margin: auto; background: white;
+            padding: 25px; border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        p { padding: 10px; border-bottom: 1px solid #eee; }
+        a {
+            display: inline-block; padding: 10px 15px;
+            background: #5135a5; color: white;
+            text-decoration: none; border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Collection Request Details</h2>
+
+    <p><b>Request ID:</b> {{ request_obj.id }}</p>
+    <p><b>User:</b> {{ request_obj.user.name }}</p>
+    <p><b>Phone:</b> {{ request_obj.user.phone }}</p>
+    <p><b>Email:</b> {{ request_obj.user.email }}</p>
+    <p><b>Category:</b> {{ request_obj.category.category_name }}</p>
+    <p><b>Collection Centre:</b> {{ request_obj.centre.centre_name }}</p>
+    <p><b>Quantity:</b> {{ request_obj.quantity }}</p>
+    <p><b>Weight:</b> {{ request_obj.weight }} kg</p>
+    <p><b>Pickup Address:</b> {{ request_obj.pickup_address }}</p>
+    <p><b>Pickup Date:</b> {{ request_obj.pickup_date|date:"d-m-Y" }}</p>
+    <p><b>Status:</b> {{ request_obj.status }}</p>
+
+    <a href="{% url 'manage_requests' %}">Back</a>
+    <a href="{% url 'edit_request' request_obj.id %}">Edit</a>
+</div>
+
+</body>
+</html>

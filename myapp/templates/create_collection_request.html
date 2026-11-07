@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Collection Request</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f9; padding: 30px; }
+        .container {
+            max-width: 550px; margin: auto; background: white;
+            padding: 25px; border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        label { display: block; margin-top: 17px; }
+        input, select, textarea {
+            width: 100%; box-sizing: border-box; padding: 12px;
+            margin-top: 7px; border: 1px solid #ccc; border-radius: 5px;
+        }
+        textarea { min-height: 90px; }
+        button, a {
+            display: inline-block; margin-top: 20px; padding: 10px 15px;
+            background: #5135a5; color: white; border: none;
+            border-radius: 5px; text-decoration: none; cursor: pointer;
+        }
+
+/* DARK THEME */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #0b0b14 !important;
+    color: #eeeeF5 !important;
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    background: #171326 !important;
+    border-bottom: 1px solid #30234f;
+}
+
+.container,
+.card,
+.welcome,
+.stat,
+.module {
+    background: #171525 !important;
+    color: #eeeeF5 !important;
+    border: 1px solid #302747 !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+h1, h2, h3, h4 {
+    color: #ffffff !important;
+}
+
+p, label, td {
+    color: #d1cedd;
+}
+
+th {
+    background: #30205c !important;
+    color: white !important;
+}
+
+td {
+    background: #171525;
+    border-bottom: 1px solid #302747 !important;
+}
+
+input,
+select,
+textarea {
+    background: #211e32 !important;
+    color: #ffffff !important;
+    border: 1px solid #49405f !important;
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 0 2px rgba(168,85,247,0.15);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #9992ad;
+}
+
+select option {
+    background: #211e32;
+    color: white;
+}
+
+button,
+.btn,
+a:not(nav a) {
+    background: #5135a5;
+    color: white !important;
+}
+
+button:hover,
+.btn:hover,
+a:not(nav a):hover {
+    background: #7048d4;
+}
+
+.view {
+    background: #16865d !important;
+}
+
+.edit {
+    background: #bd801b !important;
+}
+
+.delete {
+    background: #c93648 !important;
+}
+
+.feedback {
+    background: #16865d !important;
+}
+
+.message {
+    background: #211e32;
+    color: #ffffff;
+    border-left: 3px solid #a855f7;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+table {
+    background: #171525;
+}
+
+::selection {
+    background: #7048d4;
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>New Collection Request</h2>
+
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>E-Waste Category</label>
+        <select name="category" required>
+            <option value="">-- Select Category --</option>
+            {% for category in categories %}
+            <option value="{{ category.id }}">
+                {{ category.category_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Collection Centre</label>
+        <select name="centre" required>
+            <option value="">-- Select Centre --</option>
+            {% for centre in centres %}
+            <option value="{{ centre.id }}">
+                {{ centre.centre_name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label>Quantity</label>
+        <input type="number" name="quantity" min="1" required>
+
+        <label>Estimated Weight (kg)</label>
+        <input type="number" name="weight" step="0.01" min="0.01" required>
+
+        <label>Pickup Address</label>
+        <textarea name="pickup_address" required></textarea>
+
+        <label>Pickup Date</label>
+        <input type="date" name="pickup_date"
+               min="{{ today|date:'Y-m-d' }}" required>
+
+        <button type="submit">Submit Request</button>
+        <a href="{% url 'user_home' %}">Cancel</a>
+    </form>
+</div>
+
+</body>
+</html>

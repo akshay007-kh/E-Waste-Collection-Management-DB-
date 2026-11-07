@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignment Details</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial;
+            background: #0b0b14;
+            color: #eeeeF5;
+            padding: 30px;
+        }
+        .card {
+            max-width: 650px;
+            margin: auto;
+            padding: 25px;
+            background: #171525;
+            border: 1px solid #302747;
+            border-radius: 12px;
+        }
+        h2, h3 { color: white; }
+        p {
+            padding: 10px;
+            border-bottom: 1px solid #302747;
+            color: #d1cedd;
+        }
+        .muted { color: #aaa4bc; }
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            background: #211e32;
+            color: white;
+            border: 1px solid #49405f;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        button:hover, a:hover { background: #7048d4; }
+        .message {
+            padding: 10px;
+            background: #211e32;
+            border-left: 3px solid #a855f7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Assignment #{{ assignment.id }}</h2>
+
+    {% for message in messages %}
+        <p class="message">{{ message }}</p>
+    {% endfor %}
+
+    <h3>Customer Details</h3>
+    <p><b>User:</b> {{ assignment.request.user.name }}</p>
+    <p><b>Phone:</b> {{ assignment.request.user.phone }}</p>
+    <p><b>Email:</b> {{ assignment.request.user.email }}</p>
+
+    <h3>Collection Request Details</h3>
+    <p><b>Request ID:</b> #{{ assignment.request.id }}</p>
+    <p><b>Category:</b> {{ assignment.request.category.category_name }}</p>
+    <p><b>Centre:</b> {{ assignment.request.centre.centre_name }}</p>
+    <p><b>Quantity:</b> {{ assignment.request.quantity }}</p>
+    <p><b>Estimated Weight:</b> {{ assignment.request.weight }} kg</p>
+    <p><b>Pickup Address:</b> {{ assignment.request.pickup_address }}</p>
+    <p><b>Pickup Date:</b> {{ assignment.request.pickup_date|date:"d-m-Y" }}</p>
+    <p><b>Assigned Date:</b> {{ assignment.assigned_date|date:"d-m-Y" }}</p>
+    <p><b>Request Status:</b> {{ assignment.request.status }}</p>
+    <p><b>Assignment Status:</b> {{ assignment.status }}</p>
+
+    {% if assignment.status != 'Completed' and assignment.request.status != 'Collected' and assignment.request.status != 'Cancelled' %}
+    <h3>Update Assignment Status</h3>
+
+    <form method="POST"
+          action="{% url 'update_assignment_status' assignment.id %}">
+        {% csrf_token %}
+
+        <select name="status" required>
+            <option value="">-- Select Status --</option>
+
+            <option value="In Progress"
+                {% if assignment.status == 'In Progress' %}selected{% endif %}>
+                In Progress
+            </option>
+
+            <option value="Completed">
+                Completed
+            </option>
+        </select>
+
+        <button type="submit">Update Status</button>
+    </form>
+    {% else %}
+        <p class="muted">No further status updates are available.</p>
+    {% endif %}
+
+    <a href="{% url 'my_assignments' %}">Back to Assignments</a>
+</div>
+
+</body>
+</html>

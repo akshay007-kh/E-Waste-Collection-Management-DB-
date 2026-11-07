@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Details</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f9;
+            padding: 30px;
+        }
+        .card {
+            max-width: 600px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+        }
+        h2 { color: #30205c; }
+        p {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 15px;
+            background: #5135a5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Feedback Details</h2>
+
+    <p><b>Feedback ID:</b> {{ feedback.id }}</p>
+    <p><b>User Name:</b> {{ feedback.user.name }}</p>
+    <p><b>User Phone:</b> {{ feedback.user.phone }}</p>
+    <p><b>User Email:</b> {{ feedback.user.email }}</p>
+    <p><b>Request ID:</b> {{ feedback.request.id }}</p>
+    <p><b>Category:</b> {{ feedback.request.category.category_name }}</p>
+    <p><b>Collection Centre:</b> {{ feedback.request.centre.centre_name }}</p>
+    <p><b>Rating:</b> {{ feedback.rating }}/5</p>
+    <p><b>Feedback Message:</b> {{ feedback.message }}</p>
+    <p><b>Submitted Date:</b> {{ feedback.date|date:"d-m-Y" }}</p>
+
+    <a href="{% url 'manage_feedback' %}">Back</a>
+    <a href="{% url 'edit_feedback' feedback.id %}">Edit</a>
+</div>
+
+</body>
+</html>

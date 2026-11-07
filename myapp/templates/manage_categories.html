@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories | E-Waste</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #0b1020;
+            color: white;
+            min-height: 100vh;
+        }
+
+        nav {
+            background: #11182b;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #29334d;
+        }
+
+        nav h2 { color: #a78bfa; }
+
+        a { text-decoration: none; }
+
+        .back, .add-btn {
+            color: white;
+            background: #7c3aed;
+            padding: 10px 18px;
+            border-radius: 7px;
+        }
+
+        .container { padding: 40px 8%; }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .messages p {
+            background: #26334d;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 10px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #39445e;
+            border-radius: 7px;
+            background: #151c30;
+            color: white;
+            width: 320px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-btn {
+            padding: 12px 20px;
+            background: #7c3aed;
+            color: white;
+            border-radius: 7px;
+        }
+
+        .table-box {
+            background: #151c30;
+            border: 1px solid #29334d;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #29334d;
+        }
+
+        th {
+            color: #c4b5fd;
+            background: #1e293b;
+        }
+
+        td { color: #d1d5db; }
+
+        .action {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: white;
+            margin: 2px;
+            font-size: 13px;
+        }
+
+        .view { background: #2563eb; }
+        .edit { background: #7c3aed; }
+        .delete { background: #dc2626; }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+        }
+
+        @media(max-width: 600px) {
+            .container { padding: 25px 5%; }
+            .search-box { flex-wrap: wrap; }
+            input { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>E-Waste Admin</h2>
+    <a href="{% url 'admin_home' %}" class="back">Dashboard</a>
+</nav>
+
+<div class="container">
+
+    <div class="top">
+        <h1>Manage Categories</h1>
+
+        <a href="{% url 'add_category' %}" class="add-btn">
+            + Add Category
+        </a>
+    </div>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="GET" class="search-box">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search category..."
+            value="{{ search }}"
+        >
+        <button type="submit" class="search-btn">Search</button>
+    </form>
+
+    <div class="table-box">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Category Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.category_name }}</td>
+                    <td>{{ category.description|truncatechars:50 }}</td>
+
+                    <td>
+                        <a href="{% url 'view_category' category.id %}"
+                           class="action view">View</a>
+
+                        <a href="{% url 'edit_category' category.id %}"
+                           class="action edit">Edit</a>
+
+                        <form method="POST"
+                              action="{% url 'delete_category' category.id %}"
+                              style="display:inline;"
+                              onsubmit="return confirm('Delete this category?');">
+
+                            {% csrf_token %}
+
+                            <button type="submit" class="action delete">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty">
+                        No categories found.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
